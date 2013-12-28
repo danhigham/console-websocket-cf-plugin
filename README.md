@@ -29,7 +29,7 @@ applications:
   host: rails-console-test
   domain: cfapps.io
   path: .
-  command: ./console-server -console-process="rails c" -main-process="bundle exec rails s -p 8080"
+  command: ./console-server-linux-amd64 -console-process="rails c" -main-process="bundle exec rails s -p 8080"
 ```
 
 The processes that are started by the console-server binary are completely configurable, you could for example just run 'bash' for the console process. If you wish to make the application available, mounted at /, then it needs to be bound to port 8080, this is the port console-server expects to proxy requests to.

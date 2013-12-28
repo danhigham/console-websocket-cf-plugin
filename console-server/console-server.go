@@ -84,11 +84,7 @@ func main() {
    
   wsHandler := websocket.Handler(func (ws *websocket.Conn) {
     
-    bin := ""
-
-    a := strings.Split(*consoleProcess, " ")
-    bin, a = a[0], a[1:len(a)]
-    cmd := exec.Command(bin, a...)
+    cmd := exec.Command("script", "-c", "'" + *consoleProcess + "'", "/dev/null")
 
     stdout, err := cmd.StdoutPipe()
     if err != nil {
@@ -107,10 +103,6 @@ func main() {
 
     if err := cmd.Start(); err != nil {
       log.Print(err)
-    }
-
-    if (*consoleProcess == "rails c") {
-      io.WriteString(stdin, "conf.prompt_mode=:DEFAULT\n")
     }
 
     errbr := bufio.NewReader(stderr)
