@@ -44,3 +44,7 @@ $ cf push --reset
 ```
 $ cf console <app name>
 ```
+
+Of course you could chose to launch 'bash' and then start 'rails c' from within the shell itself, this is my preferred method. In fact, 'bash' is the default for the -console-process option if it is omitted!
+
+**NOTE: At the moment, "exit" tells the plugin to kill the websocket connection and finish the session.**
