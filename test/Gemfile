@@ -1,0 +1,4 @@
+source 'http://rubygems.org'
+
+gem 'cf'
+gem 'console-websocket-cf-plugin', :path => "../"

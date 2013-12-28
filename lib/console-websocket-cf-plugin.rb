@@ -1,0 +1,1 @@
+require 'console-websocket-cf-plugin/plugin'
