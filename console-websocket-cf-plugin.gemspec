@@ -3,11 +3,11 @@
 
 Gem::Specification.new do |s|
   s.name         = "console-websocket-cf-plugin"
-  s.version      = '0.0.2'
+  s.version      = '0.0.3'
   s.platform     = Gem::Platform::RUBY
   s.summary      = "CF WebSocket Console"
   s.description  = "CF command line extension to allow console access to an app container via a secure WebSocket"
-  s.author       = "GoPivotal"
+  s.author       = "Dan Higham"
   s.homepage      = 'https://github.com/danhigham/console-websocket-cf-plugin'
   s.license       = 'Apache 2.0'
   s.email         = "support@cloudfoundry.com"
