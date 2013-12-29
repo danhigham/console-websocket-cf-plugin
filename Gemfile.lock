@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    console-websocket-cf-plugin (0.0.1)
+    console-websocket-cf-plugin (0.0.2)
       cf
       faye-websocket
       ruby-termios
@@ -61,7 +61,7 @@ GEM
       atomic
     tzinfo (0.3.38)
     uuidtools (2.1.4)
-    websocket-driver (0.3.0)
+    websocket-driver (0.3.1)
 
 PLATFORMS
   ruby

@@ -3,6 +3,7 @@ package main
 import (
   "bufio"
   "code.google.com/p/go.net/websocket"
+  "github.com/kr/pty"
   "io"
   "flag"
   "fmt"
@@ -21,20 +22,6 @@ func printToLog(s string) {
   t := time.Now()
   ts := fmt.Sprintf("[%04d-%02d-%02d %02d:%02d:%02d]", t.Year(), t.Month(), t.Day(), t.Hour(), t.Minute(), t.Second())
   os.Stdout.Write([]byte(ts + " " + s))
-}
-
-func reader(ws *websocket.Conn, r io.Reader) {
-  
-  for {
-    buf := make([]byte, 1024)
-    n, err := r.Read(buf[:])
-    
-    if err != nil {
-      return
-    }
-
-    ws.Write(buf[0:n])
-  }
 }
 
 func logPipe(r io.Reader) {
@@ -83,33 +70,22 @@ func main() {
   var mainProcess = flag.String("main-process", "", "The main application to be run (e.g rails s)")
    
   wsHandler := websocket.Handler(func (ws *websocket.Conn) {
-    
-    cmd := exec.Command("script", "-c", "'" + *consoleProcess + "'", "/dev/null")
 
-    stdout, err := cmd.StdoutPipe()
+    bin := ""
+
+    a := strings.Split(*consoleProcess, " ")
+    bin, a = a[0], a[1:len(a)]
+    cmd := exec.Command(bin, a...)
+
+    f, err := pty.Start(cmd)
+
     if err != nil {
       log.Print(err)
     }
 
-    stderr, err := cmd.StderrPipe()
-    if err != nil {
-      log.Print(err)
-    }
+    scriptPid := cmd.Process.Pid;
 
-    stdin, err := cmd.StdinPipe()
-    if err != nil {
-      log.Print(err)
-    }
-
-    if err := cmd.Start(); err != nil {
-      log.Print(err)
-    }
-
-    errbr := bufio.NewReader(stderr)
-    outbr := bufio.NewReader(stdout)
-   
-    go reader(ws, outbr)
-    go reader(ws, errbr)
+    log.Print("Console pid is ", scriptPid)
 
     go func() {
       for {
@@ -119,16 +95,19 @@ func main() {
         if err != nil {
           log.Print(err)
           ws.Close()
+
+          // p, _ := os.FindProcess(scriptPid)
+          // p.Kill()
+
           cmd.Process.Kill()
           return
         }
 
-        io.WriteString(stdin, string(msg[:n]) + "\n")
+        f.WriteString(string(msg[:n]) + "\n")
       }
     }()
 
-    cmd.Wait()
-
+    io.Copy(ws, f)
   })
 
   flag.Parse()
