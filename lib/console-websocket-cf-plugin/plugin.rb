@@ -24,7 +24,7 @@ module ConsoleWebsocketCfPlugin
     def receive_line(data)
       EM.stop if data == "exit"
       @ws.lines_in << data
-      @ws.send data.gsub("\n", "")
+      @ws.send data
     end
 
     def move_history(direction)
@@ -78,7 +78,10 @@ module ConsoleWebsocketCfPlugin
         end
 
         ws.on :message do |event|
-          print event.data unless event.data.strip == ws.lines_in.last
+          msg = event.data
+
+          msg = msg[(ws.lines_in.last.length)..(msg.length - 1)].lstrip if msg.start_with?(ws.lines_in.last)
+          print msg
         end
 
         ws.on :close do |event|
