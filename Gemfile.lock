@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    console-websocket-cf-plugin (0.0.2)
+    console-websocket-cf-plugin (0.0.4)
       cf
       faye-websocket
       ruby-termios

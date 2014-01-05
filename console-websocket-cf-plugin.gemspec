@@ -3,7 +3,7 @@
 
 Gem::Specification.new do |s|
   s.name         = "console-websocket-cf-plugin"
-  s.version      = '0.0.3'
+  s.version      = '0.0.4'
   s.platform     = Gem::Platform::RUBY
   s.summary      = "CF WebSocket Console"
   s.description  = "CF command line extension to allow console access to an app container via a secure WebSocket"

@@ -70,7 +70,7 @@ module ConsoleWebsocketCfPlugin
         BYTES_IN
 
         ws = Faye::WebSocket::Client.new(ws_url, nil, { :headers => { 'Origin' => "http://#{app.url}:4443" }})
-        ws.lines_in = []
+        ws.lines_in = ['']
 
         ws.on :error do |event|
           p [:error]
